@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:s="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd">
+	<context:property-placeholder location="classpath*:jdbc.properties" />
+	<bean name="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="${jdbc.driver}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+	</bean>
+	<bean name="persistenceUnitManager"
+		class="org.springframework.orm.jpa.persistenceunit.DefaultPersistenceUnitManager">
+		<property name="persistenceXmlLocations">
+			<list>
+				<value>classpath*:META-INF/persistence.xml</value>
+			</list>
+		</property>
+		<property name="defaultDataSource" ref="dataSource" />
+	</bean>
+	<bean name="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="persistenceUnitManager" ref="persistenceUnitManager" />
+		<property name="persistenceUnitName" value="UP_MM" />
+	</bean>
+	<bean name="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
+	<tx:annotation-driven transaction-manager="transactionManager" />
+	<context:annotation-config />
+	<bean name="repository" class="com.epi.j2ee.repository.GenericRepository" />
+	<bean name="metier" class="com.epi.j2ee.service.GenericService">
+		<property name="repository" ref="repository" />
+	</bean>
+	<s:http>
+		<s:intercept-url pattern="/docteur/**" access="ROLE_DOCTEUR" />
+		<s:intercept-url pattern="/assistante/**" access="ROLE_ASSISTANTE" />
+		<s:form-login login-page="/login" default-target-url="/docteur/index"
+			authentication-failure-url="/login" />
+		<s:logout logout-url="/logout" logout-success-url="/login" invalidate-session="true"/>
+	</s:http>
+	<s:authentication-manager>
+		<s:authentication-provider>
+			<s:user-service>
+				<s:user name="user" password="user" authorities="ROLE_DOCTEUR" />
+				<s:user name="admin" authorities="ROLE_DOCTEUR,ROLE_ASSISTANTE"
+					password="admin" />
+			</s:user-service>
+		</s:authentication-provider>
+	</s:authentication-manager>
+</beans>
