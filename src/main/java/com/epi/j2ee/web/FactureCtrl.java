@@ -6,7 +6,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import com.epi.j2ee.domain.Facture;
-import com.epi.j2ee.service.IGenericService;
+import com.epi.j2ee.metier.IGenericService;
 
 @Controller
 @RequestMapping(value = "/facture")

@@ -1,132 +1,126 @@
 package com.epi.j2ee.domain;
-
 import java.io.Serializable;
-import java.time.LocalDate;
-
+import java.util.Date;
 import javax.persistence.Table;
-
-import com.epi.j2ee.converter.LocalDatePersistenceConverter;
-
 import javax.persistence.Column;
-import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 @Entity
 @Table(name = "FACTURES")
 public class Facture implements Serializable {
-	private static final long serialVersionUID = 1L;
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int idFact;
-	@Column(name = "montantTotFact")
-	private double montantTotFact;
-	@Convert(converter = LocalDatePersistenceConverter.class)
-	private LocalDate dateFact;
-	@Column(name = "montantFact")
-	private double montantFact;
-	@Column(name = "resteFact")
-	private double resteFact;
 
-	public Facture() {
-		super();
-	}
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int idFact;
+    @Column(name = "montantTotFact")
+    private double montantTotFact;
+    @Temporal(TemporalType.DATE)
+    private Date dateFact;
+    @Column(name = "montantFact")
+    private double montantFact;
+    @Column(name = "resteFact")
+    private double resteFact;
 
-	public Facture(double montantTotFact, LocalDate dateFact, double montantFact, double resteFact) {
-		super();
-		this.montantTotFact = montantTotFact;
-		this.dateFact = dateFact;
-		this.montantFact = montantFact;
-		this.resteFact = resteFact;
-	}
+    public Facture() {
+        super();
+    }
 
-	public int getIdFact() {
-		return idFact;
-	}
+    public Facture(double montantTotFact, Date dateFact, double montantFact, double resteFact) {
+        this.montantTotFact = montantTotFact;
+        this.dateFact = dateFact;
+        this.montantFact = montantFact;
+        this.resteFact = resteFact;
+    }
 
-	public void setIdFact(int idFact) {
-		this.idFact = idFact;
-	}
+    public int getIdFact() {
+        return idFact;
+    }
 
-	public double getMontantTotFact() {
-		return montantTotFact;
-	}
+    public void setIdFact(int idFact) {
+        this.idFact = idFact;
+    }
 
-	public void setMontantTotFact(double montantTotFact) {
-		this.montantTotFact = montantTotFact;
-	}
+    public double getMontantTotFact() {
+        return montantTotFact;
+    }
 
-	public LocalDate getDateFact() {
-		return dateFact;
-	}
+    public void setMontantTotFact(double montantTotFact) {
+        this.montantTotFact = montantTotFact;
+    }
 
-	public void setDateFact(LocalDate dateFact) {
-		this.dateFact = dateFact;
-	}
+    public Date getDateFact() {
+        return dateFact;
+    }
 
-	public double getMontantFact() {
-		return montantFact;
-	}
+    public void setDateFact(Date dateFact) {
+        this.dateFact = dateFact;
+    }
 
-	public void setMontantFact(double montantFact) {
-		this.montantFact = montantFact;
-	}
+    public double getMontantFact() {
+        return montantFact;
+    }
 
-	public double getResteFact() {
-		return resteFact;
-	}
+    public void setMontantFact(double montantFact) {
+        this.montantFact = montantFact;
+    }
 
-	public void setResteFact(double resteFact) {
-		this.resteFact = resteFact;
-	}
+    public double getResteFact() {
+        return resteFact;
+    }
 
-	@Override
-	public String toString() {
-		return "Facture [idFact=" + idFact + ", montantTotFact=" + montantTotFact + ", dateFact=" + dateFact
-				+ ", montantFact=" + montantFact + ", resteFact=" + resteFact + "]";
-	}
+    public void setResteFact(double resteFact) {
+        this.resteFact = resteFact;
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((dateFact == null) ? 0 : dateFact.hashCode());
-		result = prime * result + idFact;
-		long temp;
-		temp = Double.doubleToLongBits(montantFact);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(montantTotFact);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		temp = Double.doubleToLongBits(resteFact);
-		result = prime * result + (int) (temp ^ (temp >>> 32));
-		return result;
-	}
+    @Override
+    public String toString() {
+        return "Facture{" + "idFact=" + idFact + ", montantTotFact=" + montantTotFact + ", dateFact=" + dateFact + ", montantFact=" + montantFact + ", resteFact=" + resteFact + '}';
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Facture other = (Facture) obj;
-		if (dateFact == null) {
-			if (other.dateFact != null)
-				return false;
-		} else if (!dateFact.equals(other.dateFact))
-			return false;
-		if (idFact != other.idFact)
-			return false;
-		if (Double.doubleToLongBits(montantFact) != Double.doubleToLongBits(other.montantFact))
-			return false;
-		if (Double.doubleToLongBits(montantTotFact) != Double.doubleToLongBits(other.montantTotFact))
-			return false;
-		if (Double.doubleToLongBits(resteFact) != Double.doubleToLongBits(other.resteFact))
-			return false;
-		return true;
-	}
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 89 * hash + this.idFact;
+        hash = 89 * hash + (int) (Double.doubleToLongBits(this.montantTotFact) ^ (Double.doubleToLongBits(this.montantTotFact) >>> 32));
+        hash = 89 * hash + (this.dateFact != null ? this.dateFact.hashCode() : 0);
+        hash = 89 * hash + (int) (Double.doubleToLongBits(this.montantFact) ^ (Double.doubleToLongBits(this.montantFact) >>> 32));
+        hash = 89 * hash + (int) (Double.doubleToLongBits(this.resteFact) ^ (Double.doubleToLongBits(this.resteFact) >>> 32));
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Facture other = (Facture) obj;
+        if (this.idFact != other.idFact) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.montantTotFact) != Double.doubleToLongBits(other.montantTotFact)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.montantFact) != Double.doubleToLongBits(other.montantFact)) {
+            return false;
+        }
+        if (Double.doubleToLongBits(this.resteFact) != Double.doubleToLongBits(other.resteFact)) {
+            return false;
+        }
+        if (this.dateFact != other.dateFact && (this.dateFact == null || !this.dateFact.equals(other.dateFact))) {
+            return false;
+        }
+        return true;
+    }
 
 }

@@ -12,6 +12,8 @@
 		<class>com.epi.j2ee.domain.Ordonnance</class>
 		<class>com.epi.j2ee.domain.Patient</class>
 		<class>com.epi.j2ee.domain.RendezVous</class>
+		<class>com.epi.j2ee.domain.Role</class>
+		<class>com.epi.j2ee.domain.User</class>
 		<properties>
 			<property name="hibernate.hbm2ddl.auto" value="update" />
 			<property name="ibernate.show_sql" value="true" />

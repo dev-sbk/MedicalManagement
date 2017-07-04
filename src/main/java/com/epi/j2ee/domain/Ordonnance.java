@@ -4,129 +4,115 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 import javax.persistence.Column;
-import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
-import com.epi.j2ee.converter.LocalDatePersistenceConverter;
+import java.util.Date;
+import javax.persistence.CascadeType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "ORDONNANCES")
 public class Ordonnance implements Serializable {
-	private static final long serialVersionUID = 1L;
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int idOrd;
-	@Convert(converter = LocalDatePersistenceConverter.class)
-	private LocalDate dateOrd;
-	@Column(name = "qteOrd")
-	private int qteOrd;
-	@Column(name = "dureeOrd", length = 30)
-	private String dureeOrd;
-	@Column(name = "medicamentOrd", length = 255)
-	private String medicamentOrd;
 
-	public Ordonnance() {
-		super();
-	}
+    private static final long serialVersionUID = 1L;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int idOrd;
+    @Temporal(TemporalType.DATE)
+    private Date dateOrd;
+    @Column(name = "descrption")
+    private String description;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "idCons")
+    private Consultation consultation;
 
-	public Ordonnance(LocalDate dateOrd, int qteOrd, String dureeOrd, String medicamentOrd) {
-		super();
-		this.dateOrd = dateOrd;
-		this.qteOrd = qteOrd;
-		this.dureeOrd = dureeOrd;
-		this.medicamentOrd = medicamentOrd;
-	}
+    public Ordonnance() {
+        super();
+    }
 
-	public int getIdOrd() {
-		return idOrd;
-	}
+    public Ordonnance(Date dateOrd, String description) {
+        this.dateOrd = dateOrd;
+        this.description = description;
+    }
 
-	public void setIdOrd(int idOrd) {
-		this.idOrd = idOrd;
-	}
+    @Override
+    public String toString() {
+        return "Ordonnance{" + "idOrd=" + idOrd + ", dateOrd=" + dateOrd + ", description=" + description + ", consultation=" + consultation + '}';
+    }
 
-	public LocalDate getDateOrd() {
-		return dateOrd;
-	}
+    public int getIdOrd() {
+        return idOrd;
+    }
 
-	public void setDateOrd(LocalDate dateOrd) {
-		this.dateOrd = dateOrd;
-	}
+    public void setIdOrd(int idOrd) {
+        this.idOrd = idOrd;
+    }
 
-	public int getQteOrd() {
-		return qteOrd;
-	}
+    public Date getDateOrd() {
+        return dateOrd;
+    }
 
-	public void setQteOrd(int qteOrd) {
-		this.qteOrd = qteOrd;
-	}
+    public void setDateOrd(Date dateOrd) {
+        this.dateOrd = dateOrd;
+    }
 
-	public String getDureeOrd() {
-		return dureeOrd;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setDureeOrd(String dureeOrd) {
-		this.dureeOrd = dureeOrd;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public String getMedicamentOrd() {
-		return medicamentOrd;
-	}
+    public Consultation getConsultation() {
+        return consultation;
+    }
 
-	public void setMedicamentOrd(String medicamentOrd) {
-		this.medicamentOrd = medicamentOrd;
-	}
+    public void setConsultation(Consultation consultation) {
+        this.consultation = consultation;
+    }
 
-	@Override
-	public String toString() {
-		return "Ordonnance [idOrd=" + idOrd + ", dateOrd=" + dateOrd + ", qteOrd=" + qteOrd + ", dureeOrd=" + dureeOrd
-				+ ", medicamentOrd=" + medicamentOrd + "]";
-	}
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 79 * hash + this.idOrd;
+        hash = 79 * hash + (this.dateOrd != null ? this.dateOrd.hashCode() : 0);
+        hash = 79 * hash + (this.description != null ? this.description.hashCode() : 0);
+        hash = 79 * hash + (this.consultation != null ? this.consultation.hashCode() : 0);
+        return hash;
+    }
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((dateOrd == null) ? 0 : dateOrd.hashCode());
-		result = prime * result + ((dureeOrd == null) ? 0 : dureeOrd.hashCode());
-		result = prime * result + idOrd;
-		result = prime * result + ((medicamentOrd == null) ? 0 : medicamentOrd.hashCode());
-		result = prime * result + qteOrd;
-		return result;
-	}
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Ordonnance other = (Ordonnance) obj;
+        if (this.idOrd != other.idOrd) {
+            return false;
+        }
+        if ((this.description == null) ? (other.description != null) : !this.description.equals(other.description)) {
+            return false;
+        }
+        if (this.dateOrd != other.dateOrd && (this.dateOrd == null || !this.dateOrd.equals(other.dateOrd))) {
+            return false;
+        }
+        if (this.consultation != other.consultation && (this.consultation == null || !this.consultation.equals(other.consultation))) {
+            return false;
+        }
+        return true;
+    }
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Ordonnance other = (Ordonnance) obj;
-		if (dateOrd == null) {
-			if (other.dateOrd != null)
-				return false;
-		} else if (!dateOrd.equals(other.dateOrd))
-			return false;
-		if (dureeOrd == null) {
-			if (other.dureeOrd != null)
-				return false;
-		} else if (!dureeOrd.equals(other.dureeOrd))
-			return false;
-		if (idOrd != other.idOrd)
-			return false;
-		if (medicamentOrd == null) {
-			if (other.medicamentOrd != null)
-				return false;
-		} else if (!medicamentOrd.equals(other.medicamentOrd))
-			return false;
-		if (qteOrd != other.qteOrd)
-			return false;
-		return true;
-	}
 }
